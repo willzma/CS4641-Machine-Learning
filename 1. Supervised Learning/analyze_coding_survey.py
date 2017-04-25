@@ -38,7 +38,7 @@ def printf_score(name, classifier, input, output, testin, testout):
     classifier.fit(input, output)
     print(classifier.score(testin, testout))
 
-with open("datasets/NEW2016_New_Coder_Survey.csv", "r", encoding="utf8") as file:
+with open("datasets/2016_New_Coder_Survey.csv", "r", encoding="utf8") as file:
     reader = csv.reader(file)
     csv_list = list(reader)
     csv_list = csv_list[1:] #Ignore first row of data
@@ -76,69 +76,6 @@ output_list = partition_output[:int(0.7 * len(partition_input))]
 test_input = partition_input[int(0.7 * len(partition_input)):]
 test_output = partition_output[int(0.7 * len(partition_input)):]
 
-# Decision tree classifiers
-AdaBoost = AdaBoostClassifier(n_estimators = 100)
-NonBoost1 = tree.DecisionTreeClassifier(min_samples_leaf = 1);
-NonBoost5 = tree.DecisionTreeClassifier(min_samples_leaf = 5);
-NonBoost10 = tree.DecisionTreeClassifier(min_samples_leaf = 10);
-NonBoost20 = tree.DecisionTreeClassifier(min_samples_leaf = 20);
-NonBoost50 = tree.DecisionTreeClassifier(min_samples_leaf = 50);
-NonBoost100 = tree.DecisionTreeClassifier(min_samples_leaf = 100);
-
-# Support vector machine classifiers
-SVC = svm.SVC();
-SigmoidSVC = svm.SVC(kernel="sigmoid")
-LinearSVC = svm.LinearSVC();
-
-# k-nearest neighbors classifiers
-KNN1 = KNeighborsClassifier(n_neighbors = 1)
-KNN5 = KNeighborsClassifier(n_neighbors = 5)
-KNN10 = KNeighborsClassifier(n_neighbors = 10)
-KNN20 = KNeighborsClassifier(n_neighbors = 20)
-KNN50 = KNeighborsClassifier(n_neighbors = 50)
-KNN100 = KNeighborsClassifier(n_neighbors = 100)
-
-# Nearest neighbor classifiers
-NN = MLPClassifier(solver="lbfgs", alpha=1e-5, hidden_layer_sizes=(10, 4), random_state=1)
-
-# Cross-validating phase
-'''printf_cv("AdaBoost", cross_val_score(AdaBoost, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=1", cross_val_score(NonBoost1, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=5", cross_val_score(NonBoost5, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=10", cross_val_score(NonBoost10, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=20", cross_val_score(NonBoost20, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=50", cross_val_score(NonBoost50, input_list, output_list, cv = setCount))
-printf_cv("NonBoost, min_samples=100", cross_val_score(NonBoost100, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=1", cross_val_score(KNN1, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=5", cross_val_score(KNN5, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=10", cross_val_score(KNN10, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=20", cross_val_score(KNN20, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=50", cross_val_score(KNN50, input_list, output_list, cv = setCount))
-printf_cv("KNN, k=100", cross_val_score(KNN100, input_list, output_list, cv = setCount))
-printf_cv("NN", cross_val_score(NN, input_list, output_list, cv = setCount))
-printf_cv("SVC", cross_val_score(SVC, input_list, output_list, cv = setCount))
-printf_cv("SigmoidSVC", cross_val_score(SigmoidSVC, input_list, output_list, cv = setCount))
-printf_cv("LinearSVC", cross_val_score(LinearSVC, input_list, output_list, cv = setCount))
-
-# Normal fitting phase
-printf_score("AdaBoost", AdaBoost, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=1", NonBoost1, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=5", NonBoost5, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=10", NonBoost10, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=20", NonBoost20, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=50", NonBoost50, input_list, output_list, test_input, test_output)
-printf_score("NonBoost, min_samples=100", NonBoost100, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=1", KNN1, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=5", KNN5, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=10", KNN10, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=20", KNN20, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=50", KNN50, input_list, output_list, test_input, test_output)
-printf_score("KNN, k=100", KNN100, input_list, output_list, test_input, test_output)
-printf_score("NN", NN, input_list, output_list, test_input, test_output)
-printf_score("SVC", SVC, input_list, output_list, test_input, test_output)
-printf_score("SigmoidSVC", SigmoidSVC, input_list, output_list, test_input, test_output)
-printf_score("LinearSVC", LinearSVC, input_list, output_list, test_input, test_output)'''
-
 # Analyze model complexity curve for NonBoost tree classifier, max_depth
 '''file = open("coding_survey_nonboost_max_depth_results.csv", "w")
 print("Beginning model complexity analysis for NonBoost...")
@@ -151,9 +88,9 @@ for max_depth in range(250):
     file.write(str(classifier.score(input_list, output_list)) + ", ")
     file.write(str(classifier.score(test_input, test_output)) + "\n")'''
 
-# Analyze model complexity curve for AdaBoost tree classifier, n_estimators
+# Analyze model complexity curve for AdaBoost tree classifier, find n_estimators
 '''file = open("coding_survey_adaboost_n_estimators_results.csv", "w")
-print("Beginning model complexity analysis for AdaBoost...")
+print("Beginning model complexity analysis for AdaBoost... n_estimators")
 file.write("n_estimators" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
 for n_estimators in range(50):
     classifier = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(), n_estimators=(n_estimators + 1) * 10)
@@ -163,8 +100,23 @@ for n_estimators in range(50):
     file.write(str(classifier.score(input_list, output_list)) + ", ")
     file.write(str(classifier.score(test_input, test_output)) + "\n")'''
 
+# Analyze model complexity curve for AdaBoost tree classifier, find max_depth
+'''file = open("coding_survey_adaboost_max_depth_results.csv", "w")
+print("Beginning model complexity analysis for AdaBoost... max_depth")
+file.write("max_depth" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
+for max_depth in range(100):
+    classifier = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(max_depth=max_depth + 1), n_estimators=50)
+    result = ""
+    result += (str(max_depth + 1) + "," + str(cross_val_score(
+    classifier, input_list, output_list, cv = setCount).mean()) + ", ")
+    classifier.fit(input_list, output_list)
+    result += str(classifier.score(input_list, output_list)) + ", "
+    result += str(classifier.score(test_input, test_output)) + "\n"
+    print(result)
+    file.write(result)'''
+
 # Analyze model complexity curve for KNN classifier
-'''file = open("newknn_coding_survey_k_results.csv", "w")
+'''file = open("coding_survey_k_results.csv", "w")
 print("Beginning model complexity analysis for KNN...")
 file.write("k" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
 for k in range(250):
@@ -178,29 +130,14 @@ for k in range(250):
     print(result)
     file.write(result)'''
 
-# Analyze model complexity curve for AdaBoost tree classifier, with max depth
-'''file = open("NEWcoding_survey_adaboost_max_depth_results.csv", "w")
-print("Beginning model complexity analysis for AdaBoost...")
-file.write("max_depth" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
-for max_depth in range(100):
-    classifier = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(max_depth=max_depth + 1), n_estimators=50)
-    result = ""
-    result += (str(max_depth + 1) + "," + str(cross_val_score(
-    classifier, input_list, output_list, cv = setCount).mean()) + ", ")
-    classifier.fit(input_list, output_list)
-    result += str(classifier.score(input_list, output_list)) + ", "
-    result += str(classifier.score(test_input, test_output)) + "\n"
-    print(result)
-    file.write(result)'''
-
-# Neural network ideal number of neurons
+# Neural network ideal number of neurons in a layer
 '''scaler = StandardScaler()
 scaler.fit(input_list)
 input_list = scaler.transform(input_list)
 test_input = scaler.transform(test_input)
 
 file = open("coding_survey_neural_network_layer_results.csv", "w")
-print("Beginning model complexity analysis for NeuralNetwork...")
+print("Beginning model complexity analysis for NeuralNetwork... neurons")
 file.write("layers" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
 for neurons in range(100):
     layers = [neurons + 1]
@@ -214,14 +151,14 @@ for neurons in range(100):
     print(result)
     file.write(result)'''
 
-# Neural network tuple length
+# Neural network tuple length analysis, or number of layers
 '''scaler = StandardScaler()
 scaler.fit(input_list)
 input_list = scaler.transform(input_list)
 test_input = scaler.transform(test_input)
 
 file = open("coding_survey_neural_network_layer_length_results.csv", "w")
-print("Beginning model complexity analysis for NeuralNetwork...")
+print("Beginning model complexity analysis for NeuralNetwork... number of layers")
 file.write("layers" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
 for neurons in range(100):
     layers = []
@@ -237,7 +174,7 @@ for neurons in range(100):
     print(result)
     file.write(result)'''
 
-# SVC Analysis
+# SVC kernel analysis; which kernel is ideal
 '''SVC = svm.SVC(); # rbf
 SigmoidSVC = svm.SVC(kernel="sigmoid")
 LinearSVC = svm.LinearSVC();
@@ -264,16 +201,13 @@ result += str(LinearSVC.score(input_list, output_list)) + ", "
 result += str(LinearSVC.score(test_input, test_output)) + "\n"
 print(result)'''
 
-#scaler = StandardScaler()
-#scaler.fit(input_list)
-#input_list = scaler.transform(input_list)
-#test_input = scaler.transform(test_input)
+# Gather data for learning curves
+'''scaler = StandardScaler()
 
-'''layers = []
+layers = []
 for i in range(14):
     layers.append(18)
 
-# Learning curves
 file = open("coding_survey_learning_curve_data.csv", "w")
 print("Beginning learning curve analysis...")
 file.write("input_size" + ", " + "cv_dt" + ", " + "cv_ab" + ", " + "cv_kn" + ", " + "cv_n" + ", " + "cv_svc" + ", " + "dt" + ", " + "ab" + ", " + "kn" + ", " + "n" + ", " + "svc\n")
@@ -307,7 +241,8 @@ for input_size in range(1, int(len(input_list) / 100)):
     print(output)
     file.write(output)'''
 
-layers = []
+# Messy code below for generating ROC curves and confusion matrices
+'''layers = []
 for i in range(14):
     layers.append(18)
 
@@ -321,7 +256,7 @@ preds = NB1.fit(input_list, output_list).predict(test_input)
 probs = NB1.fit(input_list, output_list).predict_proba(test_input)
 cm = confusion_matrix(test_output, preds)
 print(cm)
-'''fpr, tpr, thresholds = roc_curve(test_output, probs[:, 1])
+fpr, tpr, thresholds = roc_curve(test_output, probs[:, 1])
 file.write("tpr" + ", " + "fpr\n")
 for i in range(len(fpr)):
     file.write(str(tpr[i]) + ", " + str(fpr[i]) + "\n")
